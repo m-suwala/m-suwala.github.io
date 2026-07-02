@@ -1,3 +1,19 @@
-theme: jekyll-theme-minimal
 title: Ancymoncia
-description: test
+description: Ręcznie robiona biżuteria i inne rękodzieło. Pełna inspiracji naturą i pięknem świata.
+
+collections:
+  produkty:
+    output: false
+
+lang: pl
+url: "https://m-suwala.github.io"
+baseurl: ""
+timezone: Europe/Warsaw
+
+author:
+  name: Monika Suwała
+
+social:
+  name: Ancymoncia
+  links:
+    - https://instagram.com/ancymoncia_art
