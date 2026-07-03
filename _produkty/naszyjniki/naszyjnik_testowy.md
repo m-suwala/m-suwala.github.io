@@ -7,9 +7,9 @@ price: 45
 
 
 images:
-  - /images/item1.jpg
-  - /images/item1-2.jpg
-  - /images/item1-3.jpg
+  - /images/DSC_0088.JPG
+  - /images/DSC_0100.JPG
+  - /images/DSC_0101.JPG
 
 description: >
   lorem ipsum

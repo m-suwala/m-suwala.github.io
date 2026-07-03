@@ -1,82 +1,166 @@
+---
+---
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Ancymoncia</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,700&family=Manrope:wght@200..800&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
+  <header class="hero">
+    <div class="hero-overlay">
 
-<h1>Ancymoncia</h1>
-<p>Ręcznie robione biżuteria, ceramika i inne rękodzieło!</p>
+      <h1>Ancymoncia</h1>
 
-<div class="search">
-  <input type="text" id="searchInput" placeholder="Wyszukaj ...">
-</div>
+      <p class="hero-subtitle">
+        Niepowtarzalne rzeczy tworzone w 100% ręcznie i z pasją<br>
+        Inspirowane naturą i otaczającym światem
+      </p>
 
-<div class="filters">
+      <p class="hero-tags">
+        biżuteria ✦ ceramika ✦ rękodzieło ✦ dekoracje ✦ i wiele więcej!
+      </p>
 
-  <h3>Kategoria</h3>
-  <button onclick="setCategory('all', this)">Wszystko</button>
-  <button onclick="setCategory('jewellery', this)">Biżuteria</button>
-  <button onclick="setCategory('accessory', this)">Akcesoria</button>
+      <a href="#" class="hero-button" id="scrollButton">
+        Zobacz produkty
+      </a>
 
-  <div id="typeFilters">
-    <h3>Podkategoria</h3>
+    </div>
+  </header>
+
+  <div class="search">
+    <input type="text" id="searchInput" placeholder="Wyszukaj ...">
   </div>
 
-  <h3>Tematyka</h3>
-  <button onclick="setVibe('all', this)">Wszystko</button>
-  <button onclick="setVibe('crystals', this)">Kryształy</button>
-  <button onclick="setVibe('floral', this)">Kwiaty</button>
-  <button onclick="setVibe('sweets', this)">Słodkie</button>
+  <div class="filter-group" id="categoryFilters">
+    <h3>Kategoria</h3>
 
-</div>
+    <button data-category="all" class="active">Wszystko</button>
+    <button data-category="jewellery">Biżuteria</button>
+    <button data-category="accessory">Akcesoria</button>
+    <button data-category="ceramics">Ceramika</button>
+    <button data-category="decoration">Dekoracje</button>
+  </div>
 
-<div class="grid">
+  <div class="filter-group" id="typeFilters">
+    <h3>Podkategoria</h3>
+    <p>Wybierz kategorię</p>
+  </div>
 
-{% for produkt in site.produkty %}
+  <div class="filter-group" id="vibeFilters">
+    <h3>Tematyka</h3>
+    <button data-vibe="all" class="active">Wszystko</button>
+    <button data-vibe="crystals">kamienie i kryształy</button>
+    <button data-vibe="floral">kwiaty</button>
+    <button data-vibe="mushrooms">grzybki</button>
+    <button data-vibe="paintings">znane obrazy</button>
+    <button data-vibe="nature">natura</button>
+    <button data-vibe="animals">zwierzęta</button>
+    <button data-vibe="autums">jesień</button>
+    <button data-vibe="fruit-n-veggies">owocki i warzywa</button>
+    <button data-vibe="food">smakowitości</button>
+    <button data-vibe="christmas">święta</button>
+  </div>
 
-<div class="item"
-     onclick="openModal(this)"
-     data-name="{{ produkt.name }}"
-     data-price="{{ produkt.price }}"
-     data-vibe="{{ produkt.vibe }}"
-     data-description="{{ produkt.description }}"
-     data-images='{{ produkt.images | jsonify }}'>
+  <div id="resultsCounter" class="results-counter"></div>
 
-  <img src="{{ produkt.images[0] }}">
-  <h3>{{ produkt.name }}</h3>
-  <p>{{ produkt.price }} zł</p>
+  <div id="noResults" class="no-results">
+    <h2>Nic nie znaleziono</h2>
+    <p>Spróbuj zmienić filtry lub wyszukać coś innego.</p>
+  </div>
 
-</div>
+  <div id="produkty" class="grid">
 
-{% endfor %}
+    {% for produkt in site.produkty %}
 
-</div>
+    <div class="item" data-id="{{ produkt.name | slugify }}" onclick="openModal(this)"
+      data-category="{{ produkt.category }}" data-type="{{ produkt.type }}" data-vibe="{{ produkt.vibe | join: ' ' }}"
+      data-name="{{ produkt.name }}" data-price="{{ produkt.price }}" data-description="{{ produkt.description }}"
+      data-images='{{ produkt.images | jsonify }}'>
 
-<div id="modal" class="modal">
+      <div class="item-image">
+        <img loading="lazy" src="{{ produkt.images[0] }}">
+      </div>
 
-  <div class="modal-content">
+      <div class="item-info">
+        <h3>{{ produkt.name }}</h3>
+        <p class="price">{{ produkt.price }} zł</p>
+      </div>
 
-    <span class="close" onclick="closeModal()">×</span>
-
-    <div class="gallery">
-      <button onclick="prevImage()">‹</button>
-      <img id="modalImage" src="">
-      <button onclick="nextImage()">›</button>
     </div>
 
-    <h2 id="modalTitle"></h2>
-    <p id="modalPrice"></p>
-    <p id="modalVibe"></p>
-    <p id="modalDescription"></p>
+    {% endfor %}
 
   </div>
 
-</div>
+  <div id="modal" class="modal">
 
-<script src="/assets/js/script.js"></script>
+    <div class="modal-content">
+
+      <span class="close" onclick="closeModal()">×</span>
+
+      <div class="gallery">
+        <button onclick="prevImage()">‹</button>
+        <img id="modalImage" src="">
+        <button onclick="nextImage()">›</button>
+      </div>
+
+      <h2 id="modalTitle"></h2>
+      <p id="modalPrice"></p>
+      <p id="modalDescription"></p>
+
+    </div>
+
+  </div>
+
+  <button id="toTopBtn" class="to-top-btn" onclick="scrollToTop()">
+    ↑
+  </button>
+
+  <footer class="footer">
+
+    <div class="footer-content">
+
+      <div class="footer-section">
+        <h3>Zakupy</h3>
+        <p>
+          W sprawie zamówień skontaktuj się ze mną mailowo bądź napisz wiadomość na wybranych social mediach!
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Kontakt</h3>
+
+        <a href="mailto:ancymoncia@gmail.com">ancymoncia@gmail.com</a>
+      </div>
+
+      <div class="footer-section">
+        <h3>Social media</h3>
+
+        <a href="https://instagram.com/ancymoncia_art" target="_blank">Instagram</a>
+        <a href="https://www.tiktok.com/@ancymoncia" target="_blank">TikTok</a>
+        <a href="https://www.facebook.com/ancymoncia.art" target="_blank">Facebook</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Ancymoncia ✦ handmade with love</p>
+    </div>
+
+  </footer>
+
+  <script src="/assets/js/script.js"></script>
 </body>
+
 </html>
