@@ -10,30 +10,31 @@ const noResults = document.getElementById("noResults");
 
 const typeMap = {
   jewellery: [
-    { label: "Naszyjniki", value: "necklace" },
-    { label: "Pierścionki", value: "ring" },
-    { label: "Kolczyki", value: "earrings" },
-    { label: "Bransoletki", value: "bracelet" }
+    { label: "naszyjniki", value: "necklace" },
+    { label: "pierścionki", value: "ring" },
+    { label: "kolczyki", value: "earrings" },
+    { label: "bransoletki", value: "bracelet" }
   ],
   accessory: [
-    { label: "Breloczki", value: "keychain" },
-    { label: "Broszki i przypinki", value: "pin" },
-    { label: "Wianki", value: "flower-crown" },
-    { label: "Spinki do włosów", value: "hairclip" }
+    { label: "breloczki", value: "keychain" },
+    { label: "broszki i przypinki", value: "pin" },
+    { label: "wianki", value: "flower-crown" },
+    { label: "spinki do włosów", value: "hairclip" }
   ],
   ceramics: [
-    { label: "Miski i talerze", value: "plate" },
-    { label: "Kubki i czarki", value: "cup" },
-    { label: "Wazony", value: "vase" },
-    { label: "Podstawki dekoracyjne", value: "tray" },
+    { label: "miski i talerze", value: "plate" },
+    { label: "kubki i czarki", value: "cup" },
+    { label: "wazony", value: "vase" },
+    { label: "podstawki dekoracyjne", value: "tray" },
   ],
   decoration: [
-    { label: "Pinezki", value: "drawing-pin" },
-    { label: "Kwiaty", value: "flower" },
-    { label: "Figurki", value: "figurine" },
-    { label: "Zakładki", value: "bookmark" },
-    { label: "Ozdoby do doniczek", value: "pot-decor" },
-    { label: "Magnesy", value: "magnet" }
+    { label: "pinezki", value: "drawing-pin" },
+    { label: "kwiaty", value: "flower" },
+    { label: "figurki", value: "figurine" },
+    { label: "zakładki", value: "bookmark" },
+    { label: "ozdoby do doniczek", value: "pot-decor" },
+    { label: "magnesy", value: "magnet" },
+    { label: "obrazy", value: "painting" }
   ],
 
 };
@@ -84,7 +85,7 @@ function renderTypeFilters() {
   }
 
   container.innerHTML += `
-    <button data-type="all" class="active">Wszystkie</button>
+    <button data-type="all" class="active">wszystkie</button>
   `;
 
   const types = typeMap[selectedCategory] || [];
@@ -180,11 +181,24 @@ function openModal(el) {
   document.getElementById("modalDescription").textContent =
     el.dataset.description || "";
 
+  const galleryButtons = document.querySelectorAll(".gallery button");
+
+  galleryButtons.forEach(button => {
+    button.style.display = currentImages.length > 1 ? "flex" : "none";
+  });
+
   document.getElementById("modal").style.display = "flex";
 }
 
 function closeModal() {
   document.getElementById("modal").style.display = "none";
+
+  const galleryButtons = document.querySelectorAll(".gallery button");
+
+  galleryButtons.forEach(button => {
+    button.style.display = "none";
+  });
+
   history.pushState("", document.title, window.location.pathname);
 }
 
